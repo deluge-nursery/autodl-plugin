@@ -91,3 +91,8 @@ ENV/
 
 # Pycharm
 .idea/
+
+# GTK, glade
+*.gladep
+*.glade.bak
+*.gladep.bak
