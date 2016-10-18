@@ -61,7 +61,7 @@
 			  <property name="enable_popup">False</property>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox1">
+			    <widget class="GtkHBox" id="trackers_hbox">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
 			      <property name="spacing">0</property>
@@ -78,7 +78,7 @@
 
 				  <child>
 				    <widget class="GtkTable" id="table1">
-				      <property name="border_width">10</property>
+				      <property name="border_width">5</property>
 				      <property name="visible">True</property>
 				      <property name="n_rows">3</property>
 				      <property name="n_columns">2</property>
@@ -252,6 +252,7 @@
 			  <child>
 			    <widget class="GtkLabel" id="trackers_label">
 			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
 			      <property name="label" translatable="yes">Trackers</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">False</property>
@@ -273,13 +274,13 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkVBox" id="vbox3">
+			    <widget class="GtkVBox" id="irc_servers_vbox">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkNotebook" id="notebook1">
+				<widget class="GtkNotebook" id="irc_servers_notebook">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
 				  <property name="show_tabs">True</property>
@@ -327,7 +328,7 @@
 
 						      <child>
 							<widget class="GtkTable" id="table3">
-							  <property name="border_width">10</property>
+							  <property name="border_width">5</property>
 							  <property name="visible">True</property>
 							  <property name="n_rows">3</property>
 							  <property name="n_columns">2</property>
@@ -420,8 +421,8 @@
 							  </child>
 
 							  <child>
-							    <widget class="GtkEntry" id="entry2">
-							      <property name="visible">True</property>
+							    <widget class="GtkEntry" id="irc_server_entry">
+							      <property name="width_request">149</property>
 							      <property name="can_focus">True</property>
 							      <property name="editable">True</property>
 							      <property name="visibility">True</property>
@@ -441,7 +442,7 @@
 							  </child>
 
 							  <child>
-							    <widget class="GtkEntry" id="entry3">
+							    <widget class="GtkEntry" id="irc_nick_entry">
 							      <property name="visible">True</property>
 							      <property name="can_focus">True</property>
 							      <property name="editable">True</property>
@@ -462,7 +463,7 @@
 							  </child>
 
 							  <child>
-							    <widget class="GtkEntry" id="entry4">
+							    <widget class="GtkEntry" id="irc_server_pass_entry">
 							      <property name="visible">True</property>
 							      <property name="can_focus">True</property>
 							      <property name="editable">True</property>
@@ -491,7 +492,7 @@
 
 						      <child>
 							<widget class="GtkTable" id="table4">
-							  <property name="border_width">10</property>
+							  <property name="border_width">5</property>
 							  <property name="visible">True</property>
 							  <property name="n_rows">3</property>
 							  <property name="n_columns">2</property>
@@ -580,7 +581,7 @@
 							  </child>
 
 							  <child>
-							    <widget class="GtkEntry" id="entry5">
+							    <widget class="GtkEntry" id="irc_nc_pass_entry">
 							      <property name="visible">True</property>
 							      <property name="can_focus">True</property>
 							      <property name="editable">True</property>
@@ -601,7 +602,7 @@
 							  </child>
 
 							  <child>
-							    <widget class="GtkSpinButton" id="spinbutton2">
+							    <widget class="GtkSpinButton" id="irc_server_port_spinbutton">
 							      <property name="visible">True</property>
 							      <property name="has_default">True</property>
 							      <property name="can_focus">True</property>
@@ -631,7 +632,7 @@
 
 						      <child>
 							<widget class="GtkTable" id="table5">
-							  <property name="border_width">10</property>
+							  <property name="border_width">5</property>
 							  <property name="visible">True</property>
 							  <property name="n_rows">3</property>
 							  <property name="n_columns">2</property>
@@ -691,7 +692,7 @@
 							  </child>
 
 							  <child>
-							    <widget class="GtkEntry" id="entry6">
+							    <widget class="GtkEntry" id="irc_nc_email_entry">
 							      <property name="visible">True</property>
 							      <property name="can_focus">True</property>
 							      <property name="editable">True</property>
@@ -768,15 +769,14 @@
 
 					  <child>
 					    <widget class="GtkAlignment" id="alignment2">
-					      <property name="border_width">10</property>
 					      <property name="visible">True</property>
 					      <property name="xalign">0.5</property>
 					      <property name="yalign">0.5</property>
 					      <property name="xscale">1</property>
 					      <property name="yscale">1</property>
-					      <property name="top_padding">0</property>
+					      <property name="top_padding">10</property>
 					      <property name="bottom_padding">0</property>
-					      <property name="left_padding">12</property>
+					      <property name="left_padding">0</property>
 					      <property name="right_padding">0</property>
 
 					      <child>
@@ -803,7 +803,7 @@
 
 							  <child>
 							    <widget class="GtkTable" id="table6">
-							      <property name="border_width">10</property>
+							      <property name="border_width">5</property>
 							      <property name="visible">True</property>
 							      <property name="n_rows">3</property>
 							      <property name="n_columns">2</property>
@@ -967,7 +967,7 @@
 
 							  <child>
 							    <widget class="GtkTable" id="table7">
-							      <property name="border_width">10</property>
+							      <property name="border_width">5</property>
 							      <property name="visible">True</property>
 							      <property name="n_rows">3</property>
 							      <property name="n_columns">2</property>
@@ -1166,48 +1166,40 @@
 						  </child>
 
 						  <child>
-						    <widget class="GtkHBox" id="hbox5">
-						      <property name="border_width">10</property>
+						    <widget class="GtkHButtonBox" id="hbuttonbox2">
+						      <property name="border_width">5</property>
 						      <property name="visible">True</property>
-						      <property name="homogeneous">False</property>
+						      <property name="layout_style">GTK_BUTTONBOX_START</property>
 						      <property name="spacing">5</property>
 
 						      <child>
-							<widget class="GtkButton" id="add_irc_channel_button">
+							<widget class="GtkButton" id="button6">
 							  <property name="visible">True</property>
+							  <property name="can_default">True</property>
 							  <property name="can_focus">True</property>
-							  <property name="label" translatable="yes">New</property>
+							  <property name="label" translatable="yes">New channel</property>
 							  <property name="use_underline">True</property>
 							  <property name="relief">GTK_RELIEF_NORMAL</property>
 							  <property name="focus_on_click">True</property>
 							</widget>
-							<packing>
-							  <property name="padding">0</property>
-							  <property name="expand">False</property>
-							  <property name="fill">False</property>
-							</packing>
 						      </child>
 
 						      <child>
-							<widget class="GtkButton" id="remove_irc_channel_button">
+							<widget class="GtkButton" id="button7">
 							  <property name="visible">True</property>
+							  <property name="can_default">True</property>
 							  <property name="can_focus">True</property>
-							  <property name="label" translatable="yes">Remove</property>
+							  <property name="label" translatable="yes">Remove channel</property>
 							  <property name="use_underline">True</property>
 							  <property name="relief">GTK_RELIEF_NORMAL</property>
 							  <property name="focus_on_click">True</property>
 							</widget>
-							<packing>
-							  <property name="padding">0</property>
-							  <property name="expand">False</property>
-							  <property name="fill">False</property>
-							</packing>
 						      </child>
 						    </widget>
 						    <packing>
 						      <property name="padding">0</property>
 						      <property name="expand">False</property>
-						      <property name="fill">True</property>
+						      <property name="fill">False</property>
 						    </packing>
 						  </child>
 						</widget>
@@ -1283,42 +1275,34 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkHBox" id="hbox2">
+				<widget class="GtkHButtonBox" id="hbuttonbox3">
 				  <property name="border_width">5</property>
 				  <property name="visible">True</property>
-				  <property name="homogeneous">False</property>
+				  <property name="layout_style">GTK_BUTTONBOX_START</property>
 				  <property name="spacing">5</property>
 
 				  <child>
-				    <widget class="GtkButton" id="new_server_button">
+				    <widget class="GtkButton" id="button8">
 				      <property name="visible">True</property>
+				      <property name="can_default">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">New</property>
+				      <property name="label" translatable="yes">Remove IRC server</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				    </widget>
-				    <packing>
-				      <property name="padding">0</property>
-				      <property name="expand">False</property>
-				      <property name="fill">False</property>
-				    </packing>
 				  </child>
 
 				  <child>
-				    <widget class="GtkButton" id="remove_irc_server_button">
+				    <widget class="GtkButton" id="button9">
 				      <property name="visible">True</property>
+				      <property name="can_default">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Remove</property>
+				      <property name="label" translatable="yes">Remove IRC Server</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="focus_on_click">True</property>
 				    </widget>
-				    <packing>
-				      <property name="padding">0</property>
-				      <property name="expand">False</property>
-				      <property name="fill">False</property>
-				    </packing>
 				  </child>
 				</widget>
 				<packing>
@@ -1338,6 +1322,138 @@
 			    <widget class="GtkLabel" id="irc_servers_lable">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">IRC Servers</property>
+			      <property name="use_underline">False</property>
+			      <property name="use_markup">False</property>
+			      <property name="justify">GTK_JUSTIFY_LEFT</property>
+			      <property name="wrap">False</property>
+			      <property name="selectable">False</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			      <property name="width_chars">-1</property>
+			      <property name="single_line_mode">False</property>
+			      <property name="angle">0</property>
+			    </widget>
+			    <packing>
+			      <property name="type">tab</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkVBox" id="vbox6">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">0</property>
+
+			      <child>
+				<widget class="GtkNotebook" id="notebook4">
+				  <property name="visible">True</property>
+				  <property name="can_focus">True</property>
+				  <property name="show_tabs">True</property>
+				  <property name="show_border">True</property>
+				  <property name="tab_pos">GTK_POS_LEFT</property>
+				  <property name="scrollable">False</property>
+				  <property name="enable_popup">False</property>
+
+				  <child>
+				    <placeholder/>
+				  </child>
+
+				  <child>
+				    <widget class="GtkLabel" id="label10">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">filter label</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0.5</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+				      <property name="width_chars">-1</property>
+				      <property name="single_line_mode">False</property>
+				      <property name="angle">0</property>
+				    </widget>
+				    <packing>
+				      <property name="type">tab</property>
+				    </packing>
+				  </child>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">True</property>
+				  <property name="fill">True</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkHBox" id="hbox7">
+				  <property name="visible">True</property>
+				  <property name="homogeneous">False</property>
+				  <property name="spacing">0</property>
+
+				  <child>
+				    <widget class="GtkHButtonBox" id="hbuttonbox1">
+				      <property name="border_width">5</property>
+				      <property name="visible">True</property>
+				      <property name="layout_style">GTK_BUTTONBOX_START</property>
+				      <property name="spacing">5</property>
+
+				      <child>
+					<widget class="GtkButton" id="button4">
+					  <property name="visible">True</property>
+					  <property name="can_default">True</property>
+					  <property name="can_focus">True</property>
+					  <property name="label" translatable="yes">New filter</property>
+					  <property name="use_underline">True</property>
+					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="focus_on_click">True</property>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkButton" id="button5">
+					  <property name="visible">True</property>
+					  <property name="can_default">True</property>
+					  <property name="can_focus">True</property>
+					  <property name="label" translatable="yes">Remove filter</property>
+					  <property name="use_underline">True</property>
+					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="focus_on_click">True</property>
+					</widget>
+				      </child>
+				    </widget>
+				    <packing>
+				      <property name="padding">0</property>
+				      <property name="expand">False</property>
+				      <property name="fill">True</property>
+				    </packing>
+				  </child>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">True</property>
+				</packing>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="tab_expand">False</property>
+			      <property name="tab_fill">True</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkLabel" id="filters_label">
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="has_focus">True</property>
+			      <property name="label" translatable="yes">Filters</property>
 			      <property name="use_underline">False</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
