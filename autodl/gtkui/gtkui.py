@@ -46,7 +46,7 @@ from deluge.plugins.pluginbase import GtkPluginBase
 import deluge.component as component
 import deluge.common
 
-from common import get_resource
+from autodl.common import get_resource
 
 class GtkUI(GtkPluginBase):
     def enable(self):
