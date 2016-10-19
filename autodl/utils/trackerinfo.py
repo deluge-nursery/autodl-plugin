@@ -4,14 +4,10 @@ import re
 
 
 class TrackerInfo(object):
-    type = None
-    shortName = None
-    longName = None
-    settings = []
-    servers = []
-
     def __init__(self, doc):
         root = XMLParser.fromstring(doc)
+        self.settings = []
+        self.servers = []
         self.type = root.attrib['type']
         self.shortName = root.attrib['shortName']
         self.longName = root.attrib['longName']
