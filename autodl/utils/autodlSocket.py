@@ -21,11 +21,10 @@ class AutdlSocket:
         self._port = port
         self._password = password
 
-    @staticmethod
-    def _read_socket(_socket):
+    def _read_socket(self):
         data = ''
         while True:
-            val = bytes(_socket.recv(4096))
+            val = bytes(self._socket.recv(8192))
             if val == '':
                 break
             data = bytes.join(data, val)
@@ -43,7 +42,7 @@ class AutdlSocket:
         self._socket.sendall(json.JSONEncoder().encode(data))
 
     def recv(self):
-        response = self._read_socket(self._socket)
+        response = self._read_socket()
         json_response = json.JSONDecoder().decode(response)
         return json_response
 
@@ -88,4 +87,4 @@ if __name__ == "__main__":
         'command': commands['getfile'],
         'name': 'autodl.cfg'
     }
-    sock.send_autodl_command(data=command)
+    sock.send(data=command)
