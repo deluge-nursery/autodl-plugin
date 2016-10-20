@@ -4,7 +4,12 @@ import re
 
 
 class TrackerInfo(object):
+    """contain a .tracker file information"""
     def __init__(self, doc):
+        """
+        initialize a new TrackerInfo object
+        :param doc: a string presentation of the .tracker file
+        """
         root = XMLParser.fromstring(doc)
         self.settings = []
         self.servers = []
@@ -37,18 +42,18 @@ class TrackerInfo(object):
                 setting[attrib_name] = child.attrib[attrib_name]
             setting['defaultValue'] = ''
             setting['isDownloadVar'] = True
-            self._test(setting, child.tag)
+            self._init_settings(setting, child.tag)
             self.settings.append(setting)
 
-    def _test(self, setting, elemName):
+    def _init_settings(self, setting, elem_name):
         def set_prop(name, value):
             if name not in setting or setting[name] is None:
                 setting[name] = value
 
-        if elemName == 'gazelle_description':
+        if elem_name == 'gazelle_description':
             set_prop('type', 'description')
             set_prop('text', self.longName)
-        elif elemName == 'gazelle_authkey':
+        elif elem_name == 'gazelle_authkey':
             set_prop('type', 'textbox')
             set_prop('name', 'authkey')
             set_prop('text', 'authkey')
@@ -56,7 +61,7 @@ class TrackerInfo(object):
             set_prop('tooltiptext', self.longName)
             set_prop('pasteGroup', 'authkey,torrent_pass')
             set_prop('pasteRegex', '[\\?&]authkey=([\\da-zA-Z]{32})')
-        elif elemName == 'gazelle_torrent_pass':
+        elif elem_name == 'gazelle_torrent_pass':
             set_prop('type', 'textbox')
             set_prop('name', 'torrent_pass')
             set_prop('text', 'torrent_pass')
@@ -64,9 +69,9 @@ class TrackerInfo(object):
             set_prop('tooltiptext', self.longName)
             set_prop('pasteGroup', 'authkey,torrent_pass')
             set_prop('pasteRegex', '[\\?&]torrent_pass=([\\da-zA-Z]{32})')
-        elif elemName == 'description':
+        elif elem_name == 'description':
             set_prop('type', 'description')
-        elif elemName == 'authkey':
+        elif elem_name == 'authkey':
             set_prop('type', 'textbox')
             set_prop('name', 'authkey')
             set_prop('text', 'authkey')
@@ -74,7 +79,7 @@ class TrackerInfo(object):
             set_prop('tooltiptext', self.longName)
             set_prop('pasteGroup', 'authkey')
             set_prop('pasteRegex', '[\\?&]authkey=([\\da-fA-F]{32})')
-        elif elemName == 'passkey':
+        elif elem_name == 'passkey':
             set_prop('type', 'textbox')
             set_prop('name', 'passkey')
             set_prop('text', 'passkey')
@@ -82,24 +87,24 @@ class TrackerInfo(object):
             set_prop('tooltiptext', self.longName)
             set_prop('pasteGroup', 'passkey')
             set_prop('pasteRegex', '[\\?&]passkey=([\\da-fA-F]{32})')
-        elif elemName == 'cookie_description':
+        elif elem_name == 'cookie_description':
             set_prop('type', 'description')
             set_prop('text', '1')
-        elif elemName == 'cookie':
+        elif elem_name == 'cookie':
             set_prop('type', 'textbox')
             set_prop('name', 'cookie')
             set_prop('text', 'Cookie')
             set_prop('placeholder', self.longName + ' ' + setting['name'])
             set_prop('tooltiptext', self.longName)
-        elif elemName == 'integer':
+        elif elem_name == 'integer':
             set_prop('type', 'integer')
             set_prop('minValue', '-999999999')
-        elif elemName == 'delta':
+        elif elem_name == 'delta':
             set_prop('type', 'integer')
             set_prop('name', 'delta')
             set_prop('text', '2')
             set_prop('minValue', '-999999999')
-        elif elemName == 'textbox':
+        elif elem_name == 'textbox':
             set_prop('type', 'textbox')
             set_prop('placeholder', self.longName + ' ' + setting['name'])
 
