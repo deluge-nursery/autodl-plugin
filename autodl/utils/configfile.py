@@ -20,7 +20,16 @@ def canonicalize_server_name(server_name):
 
 
 class ConfigOption:
+    """a config option holder"""
     def __init__(self, _id, _name, _value, _default_value=None, _option_type=None):
+        """
+        initialize a new config option
+        :param _id: the id of the option. can be set as None
+        :param _name: option's name
+        :param _value: option's value
+        :param _default_value: default value. can be None (default)
+        :param _option_type: option's type. can be 'int', 'bool' or None (default)
+        """
         self.type = 'option'
         self.id = _id
         self.name = _name.strip()
@@ -45,29 +54,57 @@ class ConfigOption:
         return _value
 
     def clone(self):
+        """
+        clone the option
+        :return: a clone of the option
+        """
         return ConfigOption(self.id, self.name, self.value, self.defaultValue, self.optionType)
 
     def get_value(self):
+        """
+        returns the current value
+        :return: current option's value
+        """
         return self._get_value(self.optionType, self.value, self.defaultValue)
 
     def set_default_value(self, default_value, option_type):
+        """
+        set a default value for the option
+        :param default_value: the default value
+        :param option_type: the option type
+        """
         if default_value is not None:
             self.defaultValue = default_value
         if option_type is not None:
             self.optionType = option_type
 
     def set_value(self, value):
+        """
+        set a new value
+        :param value: the new value
+        """
         self.value = str(value)
 
 
 class ConfigComment:
+    """a config comment"""
     def __init__(self, _id, _name, _line):
+        """
+        initialize a new comment
+        :param _id: the id of the comment
+        :param _name: name of the comment
+        :param _line: the comment line
+        """
         self.type = 'comment'
         self.id = _id
         self.name = _name
         self.value = _line
 
     def clone(self):
+        """
+        clone the comment
+        :return: a clone of the comment
+        """
         return ConfigComment(self.id, self.name, self.value)
 
     def __str__(self):
@@ -75,7 +112,14 @@ class ConfigComment:
 
 
 class ConfigSection:
+    """a config section"""
     def __init__(self, _id, _type, _name):
+        """
+        initialize a new config section
+        :param _id: the section id
+        :param _type: section type. can be filter, options, tracker, server, channel
+        :param _name: the section name
+        """
         self.id = _id
         self.type = _type.strip()
         try:
@@ -105,9 +149,17 @@ class ConfigSection:
         return out + opts
 
     def dont_print_empty(self):
+        """
+        set's the printEmpty property.
+        if set's to true, will print the section even in a case of the section being empty
+        """
         self.printEmpty = False
 
     def clone(self):
+        """
+        clones the section
+        :return: a clone of the section
+        """
         clone = ConfigSection(self.id, self.type, self.name)
         clone.nextId = self.nextId
         for key in self.lines:
@@ -116,11 +168,20 @@ class ConfigSection:
         return clone
 
     def add_option(self, name, value):
+        """
+        add a new option for the section
+        :param name: option's name
+        :param value: option's value
+        """
         option = ConfigOption(self.nextId, name, value)
         self.nextId += 1
         self.lines[option.name] = option
 
     def add_comment(self, line):
+        """
+        add a new comment to the section
+        :param line: the comment line
+        """
         _id = self.nextId
         self.nextId += 1
         name = ' comment {}'.format(_id)
@@ -128,6 +189,13 @@ class ConfigSection:
         self.lines[comment.name] = comment
 
     def get_option(self, name, default_value, _type):
+        """
+        set an option in the section
+        :param name: option's name
+        :param default_value: default value of the option
+        :param _type: type of the option
+        :return: the option
+        """
         _hash = name.strip()
         option = self.lines[_hash]
         if not option:
