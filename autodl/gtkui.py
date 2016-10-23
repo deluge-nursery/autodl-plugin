@@ -50,7 +50,7 @@ from common import get_resource
 
 class GtkUI(GtkPluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource("main.glade"))
+        self._create_ui()
         component.get("Preferences").add_page("AutoDL", self.glade.get_widget("vbox1"))
 
     def disable(self):
@@ -63,3 +63,18 @@ class GtkUI(GtkPluginBase):
 
     def on_show_prefs(self):
         log.debug("showing prefs for AutoDL")
+
+    def _create_ui(self):
+        self.glade = gtk.glade.XML(get_resource("main.glade"))
+
+        for tracker in ['Hebits', 'Scc']:
+            trackers_notebook = self.glade.get_widget('trackers_notebook')
+            table = gtk.glade.XML(get_resource("trackers.glade"), 'tracker_table_').get_widget('tracker_table_')
+            table.set_name(table.get_name() + tracker)
+            label = gtk.glade.XML(get_resource("trackers.glade"), 'tracker_label_').get_widget('tracker_label_')
+            label.set_name(label.get_name() + tracker)
+            label.set_label(tracker)
+
+            if trackers_notebook is not None:
+                trackers_notebook.append_page(table, label)
+
