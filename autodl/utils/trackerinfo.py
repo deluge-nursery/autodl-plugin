@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-import xml.etree.ElementTree as XMLParser
+from ..Lib.xml.etree import ElementTree as XMLParser
 import re
+
+
+class TrackerInfoException(Exception):
+    pass
 
 
 class TrackerInfo(object):
@@ -22,7 +26,7 @@ class TrackerInfo(object):
 
     def _parse_servers(self, servers):
         if servers is None:
-            raise 'No servers found'
+            raise TrackerInfoException('No servers found')
 
         _server = {}
         for server in servers.iter('server'):
@@ -34,7 +38,7 @@ class TrackerInfo(object):
 
     def _parse_settings(self, settings):
         if settings is None:
-            raise 'No settings found'
+            raise TrackerInfoException('No settings found')
 
         for child in settings:
             setting = {}
@@ -108,5 +112,15 @@ class TrackerInfo(object):
             set_prop('type', 'textbox')
             set_prop('placeholder', self.longName + ' ' + setting['name'])
 
-        if 'pasteRegex' in setting and setting['pasteRegex'] is not None:
-            setting['pasteRegex'] = re.compile(setting['pasteRegex'])
+        # if 'pasteRegex' in setting and setting['pasteRegex'] is not None:
+        #    setting['pasteRegex'] = re.compile(setting['pasteRegex'])
+
+    def get_all(self):
+        tracker_info = {
+            'type': self.type,
+            'shortName': self.shortName,
+            'longName': self.longName,
+            'settings': self.settings,
+            'servers': self.servers
+        }
+        return tracker_info

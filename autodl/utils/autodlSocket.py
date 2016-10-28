@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 import socket
 import json
+import errno
 
 
-class SocketException(Exception):
-    pass
+class AutodlSocketException(Exception):
+    def __init__(self, message):
+        self.message = message
+
+
+class AutodlSocketConnectionRefused(AutodlSocketException):
+    def __init__(self):
+        self.message = 'Unable to connect to autodl-irssi'
 
 
 class AutdlSocket:
@@ -22,7 +29,7 @@ class AutdlSocket:
         :param host: the host to connect to. default is 127.0.0.1
         """
         if port <= 0 or port > 65535:
-            raise Exception("Invalid port {}! Initialize port in conf.php".format(port))
+            raise AutodlSocketException("Invalid port {}! Initialize port in autodl.conf".format(port))
         if host is not None:
             self._host = host
         self._port = port
@@ -41,8 +48,14 @@ class AutdlSocket:
         """
         connects to the configured autodl
         """
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.SOL_TCP)
-        self._socket.connect((self._host, self._port))
+        try:
+            self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.SOL_TCP)
+            self._socket.connect((self._host, self._port))
+        except socket.error as exer:
+            if exer.errno == errno.ECONNREFUSED:
+                raise AutodlSocketConnectionRefused
+            else:
+                raise AutodlSocketException(exer.message)
 
     def disconnect(self):
         """
