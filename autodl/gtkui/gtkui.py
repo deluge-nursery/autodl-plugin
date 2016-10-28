@@ -68,17 +68,24 @@ class GtkUI(GtkPluginBase):
         def on_get_trackers(trackers_info):
             if len(trackers_info) > 0:
                 trackers_notebook = self.glade.get_widget('trackers_notebook')
-                # remove the example page
                 if trackers_notebook is not None:
+                    # remove the example page
                     trackers_notebook.remove_page(0)
                     for tracker_info in trackers_info:
-                        table = gtk.glade.XML(get_resource('trackers.glade'), 'tracker_table_')\
-                            .get_widget('tracker_table_')
-                        table.set_name(table.get_name() + tracker_info['longName'])
                         label = gtk.glade.XML(get_resource('trackers.glade'), 'tracker_label_')\
                             .get_widget('tracker_label_')
                         label.set_name(label.get_name() + tracker_info['longName'])
                         label.set_label(tracker_info['longName'])
+                        table = gtk.glade.XML(get_resource('trackers.glade'), 'tracker_table_')\
+                            .get_widget('tracker_table_')
+                        table.set_name(table.get_name() + tracker_info['longName'])
+                        for child in table.get_children():
+                            if child.get_name() == 'tracker_notes_content_label':
+                                child.set_label('')
+                                for setting in tracker_info['settings']:
+                                    if setting['type'] == 'description':
+                                        child.set_label(child.get_label() + setting['text'])
+                                        child.set_use_markup(True)
                         trackers_notebook.append_page(table, label)
 
         self.glade = gtk.glade.XML(get_resource("main.glade"))
