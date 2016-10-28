@@ -44,16 +44,31 @@ import deluge.component as component
 import deluge.configmanager
 from deluge.core.rpcserver import export
 
+from utils.autodlSocket import *
+from utils.configfile import ConfigFile
+from utils.trackerinfo import *
+
 DEFAULT_PREFS = {
-    "test":"NiNiNi"
+    'port': 0,
+    'password': ''
 }
 
 class Core(CorePluginBase):
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("autodl.conf", DEFAULT_PREFS)
+        self.port = self.config['port']
+        self.password = self.config['password']
+        try:
+            self._socket = AutdlSocket(self.port, self.password)
+            self.configfile = ConfigFile()
+            self.trackerinfos = []
+            self._init_data()
+        except AutodlSocketException as ex:
+            log.debug(ex.message)
 
     def disable(self):
-        pass
+        self.config["port"] = self.port
+        self.config["password"] = self.password
 
     def update(self):
         pass
@@ -69,3 +84,59 @@ class Core(CorePluginBase):
     def get_config(self):
         """Returns the config dictionary"""
         return self.config.config
+
+    @export
+    def get_trackers_info(self):
+        """returns the trackers names dictionary"""
+        trackers = []
+        for tracker_info in self.trackerinfos:
+            trackers.append(tracker_info.get_all())
+            # trackers.append(tracker_info.longName)
+        return trackers
+
+    def _send_command(self, command):
+        try:
+            self._socket.connect()
+            self._socket.send(command)
+            response = self._socket.recv()
+            self._socket.disconnect()
+        except AutodlSocketConnectionRefused as excr:
+            response = ''
+            log.debug(excr.message)
+        except AutodlSocketException:
+            response = ''
+            log.debug(AutodlSocketException.message)
+        return response
+
+    def _get_files_names(self):
+        get_files_command = {
+            'command': 'getfiles'
+        }
+        self._files_names = self._send_command(get_files_command)['files']
+
+    def _init_data(self):
+        self._get_files_names()
+        self._init_config()
+        self._init_trackers_info()
+
+    def _init_config(self):
+        get_config_file = {
+            'command': 'getfile',
+            'name': 'autodl.cfg'
+        }
+        config_file = self._send_command(get_config_file)
+        self.configfile.parse(config_file)
+
+    def _init_trackers_info(self):
+        import re
+        for file_name in self._files_names:
+            if re.match(ur'.*(\.tracker)', file_name):
+                get_tracker = {
+                    'command': 'getfile',
+                    'name': file_name
+                }
+                tracker = self._send_command(get_tracker)
+                try:
+                    self.trackerinfos.append(TrackerInfo(tracker['data']))
+                except UnicodeEncodeError as e:
+                    pass

@@ -65,16 +65,21 @@ class GtkUI(GtkPluginBase):
         log.debug("showing prefs for AutoDL")
 
     def _create_ui(self):
+        def on_get_trackers(trackers_info):
+            if len(trackers_info) > 0:
+                trackers_notebook = self.glade.get_widget('trackers_notebook')
+                # remove the example page
+                if trackers_notebook is not None:
+                    trackers_notebook.remove_page(0)
+                    for tracker_info in trackers_info:
+                        table = gtk.glade.XML(get_resource('trackers.glade'), 'tracker_table_')\
+                            .get_widget('tracker_table_')
+                        table.set_name(table.get_name() + tracker_info['longName'])
+                        label = gtk.glade.XML(get_resource('trackers.glade'), 'tracker_label_')\
+                            .get_widget('tracker_label_')
+                        label.set_name(label.get_name() + tracker_info['longName'])
+                        label.set_label(tracker_info['longName'])
+                        trackers_notebook.append_page(table, label)
+
         self.glade = gtk.glade.XML(get_resource("main.glade"))
-
-        for tracker in ['Hebits', 'Scc']:
-            trackers_notebook = self.glade.get_widget('trackers_notebook')
-            table = gtk.glade.XML(get_resource("trackers.glade"), 'tracker_table_').get_widget('tracker_table_')
-            table.set_name(table.get_name() + tracker)
-            label = gtk.glade.XML(get_resource("trackers.glade"), 'tracker_label_').get_widget('tracker_label_')
-            label.set_name(label.get_name() + tracker)
-            label.set_label(tracker)
-
-            if trackers_notebook is not None:
-                trackers_notebook.append_page(table, label)
-
+        client.autodl.get_trackers_info().addCallback(on_get_trackers)
