@@ -86,13 +86,22 @@ class Core(CorePluginBase):
         return self.config.config
 
     @export
-    def get_trackers_info(self):
-        """returns the trackers names dictionary"""
+    def get_trackers_data(self):
+        """returns the trackers data dictionary"""
         trackers = []
         for tracker_info in self.trackerinfos:
-            trackers.append(tracker_info.get_all())
-            # trackers.append(tracker_info.longName)
+            info = tracker_info.get_all()
+            info['data'] = self.get_tracker_data(info['type'])
+            trackers.append(info)
         return trackers
+
+    @export
+    def get_irc_servers_data(self):
+        return self.configfile.get_irc_servers()
+
+    @export
+    def get_filters_data(self):
+        return self.configfile.get_filters()
 
     def _send_command(self, command):
         try:
@@ -108,16 +117,18 @@ class Core(CorePluginBase):
             log.debug(AutodlSocketException.message)
         return response
 
-    def _get_files_names(self):
-        get_files_command = {
-            'command': 'getfiles'
-        }
-        self._files_names = self._send_command(get_files_command)['files']
-
     def _init_data(self):
         self._get_files_names()
         self._init_config()
         self._init_trackers_info()
+
+    def _get_files_names(self):
+        get_files_command = {
+            'command': 'getfiles'
+        }
+        response = self._send_command(get_files_command)
+        if type(response) is dict:
+            self._files_names = response['files']
 
     def _init_config(self):
         get_config_file = {
@@ -140,3 +151,24 @@ class Core(CorePluginBase):
                     self.trackerinfos.append(TrackerInfo(tracker['data']))
                 except UnicodeEncodeError as e:
                     pass
+
+    def get_tracker_data(self, tracker_type):
+        tracker_section = self.configfile.get_section('tracker', tracker_type)
+        tracker_data = {
+            'id': tracker_section.id,
+            'name': tracker_section.name,
+            'nextId': tracker_section.nextId,
+            'printEmpty': tracker_section.printEmpty,
+            'type': tracker_section.type,
+            'lines': {}
+        }
+        for line_key in tracker_section.lines.keys():
+            tracker_data['lines'][line_key] = {
+                'defaultValue': tracker_section.lines[line_key].defaultValue,
+                'id': tracker_section.lines[line_key].id,
+                'name': tracker_section.lines[line_key].name,
+                'optionType': tracker_section.lines[line_key].optionType,
+                'type': tracker_section.lines[line_key].type,
+                'value': tracker_section.lines[line_key].value
+            }
+        return tracker_data
